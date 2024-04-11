@@ -1,4 +1,4 @@
-package com.anonymous.reactnativefirebase
+package com.ucr.rnfirebase
 
 import android.os.Build
 import android.os.Bundle
