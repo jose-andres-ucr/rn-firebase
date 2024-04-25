@@ -5,7 +5,7 @@ import firebase from "@react-native-firebase/app";
 
 import * as React from "react";
 
-export default function App() {
+export default function Page() {
   React.useEffect(() => {
     async function getData() {
       try {
