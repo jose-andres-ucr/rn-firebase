@@ -1,29 +1,27 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import firestore from "@react-native-firebase/firestore";
-import firebase from "@react-native-firebase/app";
-
 import * as React from "react";
+import { getFirebaseClient } from "./firebase-client";
+
+type Student = {
+  FirstName: string;
+  LastName: string;
+};
 
 export default function Page() {
+  const [students, setStudents] = React.useState([] as Student[]);
+
   React.useEffect(() => {
     async function getData() {
       try {
-        const firebaseApp = await firebase.initializeApp(
-          {
-            appId: "1:938589636143:android:94657a9d44b98c2d7668da",
-            projectId: "react-native-firebase-b8de6",
-            databaseURL: "-",
-            apiKey: "-",
-            messagingSenderId: "-",
-            storageBucket: "-",
-          },
-          { name: "rn-firebase" }
-        );
+        const firebaseApp = await getFirebaseClient();
+        const result = [] as Student[];
         const elements = await firestore(firebaseApp)
-          .collection("CollectionTest")
+          .collection("Students")
           .get();
-        console.log("BREAKPOINT elements", elements.size);
+        elements.forEach((student) => result.push(student.data() as Student));
+        setStudents(result);
       } catch (error) {
         console.error("Error getting Firestore", error);
       }
@@ -34,8 +32,12 @@ export default function Page() {
 
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <FlatList
+        data={students}
+        renderItem={(info) => (
+          <Text>{`${info.item.FirstName} ${info.item.LastName}`}</Text>
+        )}
+      />
     </View>
   );
 }
