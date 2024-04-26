@@ -27,6 +27,7 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <FlatList
+        keyExtractor={(student) => `${student.FirstName} ${student.LastName}`}
         style={styles.list}
         data={queryStudents.data}
         renderItem={(info) => (
