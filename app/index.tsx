@@ -27,6 +27,7 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <FlatList
+        style={styles.list}
         data={queryStudents.data}
         renderItem={(info) => (
           <Text>{`${info.item.FirstName} ${info.item.LastName}`}</Text>
@@ -39,8 +40,11 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    alignContent: "center",
+  },
+  list: {
+    marginVertical: 80,
   },
 });
