@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import * as React from "react";
 import { getFirebaseClient } from "./firebase-client";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 type Student = {
   FirstName: string;
@@ -18,11 +18,29 @@ const getStudents = async () => {
   return result;
 };
 
+const GET_STUDENTS_QUERY_KEY = ["get-students"] as const;
+
 export default function Page() {
   const queryStudents = useQuery({
-    queryKey: ["get-students"],
+    queryKey: GET_STUDENTS_QUERY_KEY,
     queryFn: getStudents,
   });
+
+  const queryClient = useQueryClient();
+
+  React.useEffect(() => {
+    const unsubscribe = firestore()
+      .collection("Students")
+      .onSnapshot((collectionSnapshot) => {
+        queryClient.setQueryData(
+          GET_STUDENTS_QUERY_KEY,
+          collectionSnapshot.docs.map((value) => value.data())
+        );
+      });
+
+    // Stop listening for updates when no longer required
+    return () => unsubscribe();
+  }, []);
 
   return (
     <View style={styles.container}>
