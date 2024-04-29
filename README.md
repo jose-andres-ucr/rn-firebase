@@ -1,14 +1,14 @@
-## Setps
+# Setup
 
-- Create a React Native project with Expo
 - Download and install JDK 17: https://adoptium.net/temurin/archive/?version=17
-- npx expo run:android
+- Install Android Studio and a Virtual Device (emulator)
+- Open the emulator
+- Move `google-services.json` to the root of the project
+- Create a `.env.local` file in the root of the project with the following lines (see .env.example):
 
-## Common erros:
+```
+EXPO_PUBLIC_APP_ID="The project_id value of the google-services.json file"
+EXPO_PUBLIC_PROJECT_ID="The mobilesdk_app_id value of the google-services.json file"
+```
 
-Could not determine the dependencies of task ':app:compileDebugJavaWithJavac'.
-Create a local.properties in the android folder and specify the SDK path. For example:
-sdk.dir=D:\\Sdk
-
-Execution failed for task ':react-native-firebase_app:compileDebugJavaWithJavac'.
-Use JDK 17 only.
+- `npx expo run:android` to run the project
