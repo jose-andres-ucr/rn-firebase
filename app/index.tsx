@@ -1,7 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import firestore from "@react-native-firebase/firestore";
+import firebase from "@react-native-firebase/app";
 import * as React from "react";
-import { getFirebaseClient } from "./firebase-client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 type Student = {
@@ -10,9 +9,7 @@ type Student = {
 };
 
 const getStudents = async () => {
-  const firebaseApp = await getFirebaseClient();
-  const elements = await firestore(firebaseApp).collection("Students").get();
-
+  const elements = await firebase.firestore().collection("Students").get();
   const result = [] as Student[];
   elements.forEach((student) => result.push(student.data() as Student));
   return result;
@@ -29,7 +26,8 @@ export default function Page() {
   const queryClient = useQueryClient();
 
   React.useEffect(() => {
-    const unsubscribe = firestore()
+    const unsubscribe = firebase
+      .firestore()
       .collection("Students")
       .onSnapshot((collectionSnapshot) => {
         queryClient.setQueryData(
