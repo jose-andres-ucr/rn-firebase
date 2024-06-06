@@ -6,7 +6,7 @@
 - Move `google-services.json` to the root of the project
 - Create a `.env.local` file in the root of the project with the following lines (see .env.example):
 ```
-EXPO_PUBLIC_APP_ID="The project_id value of the google-services.json file"
-EXPO_PUBLIC_PROJECT_ID="The mobilesdk_app_id value of the google-services.json file"
+EXPO_PUBLIC_APP_ID="The mobilesdk_app_id value of the google-services.json file"
+EXPO_PUBLIC_PROJECT_ID="The project_id value of the google-services.json file"
 ```
 - `npx expo run:android` to run the project
